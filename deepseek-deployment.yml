@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deepseek-text
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deepseek-text
+  template:
+    metadata:
+      labels:
+        app: deepseek-text
+    spec:
+      containers:
+        - name: deepseek
+          image: huggingface/transformers-pytorch-gpu
+          command: ["python", "serve.py"]
+          ports:
+            - containerPort: 5000
+          resources:
+            limits:
+              nvidia.com/gpu: 1
